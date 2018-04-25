@@ -4,10 +4,9 @@ def get_vendors():
     """ query data from the vendors table """
     conn = None
     try:
-        params = config()
-        conn = psycopg2.connect(**params)
+        conn = psycopg2.connect(database="testdb", user = "postgres", password = "pass123", host = "127.0.0.1", port = "5432")
         cur = conn.cursor()
-        cur.execute("SELECT vendor_id, vendor_name FROM vendors ORDER BY vendor_name")
+        cur.execute ("SELECT vendor_id, vendor_name FROM vendors ORDER BY vendor_name")
         print("The number of parts: ", cur.rowcount)
         rows = cur.fetchone()
 

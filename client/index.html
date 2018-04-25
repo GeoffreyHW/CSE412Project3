@@ -8,39 +8,22 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
         $(document).ready(function(){
-            function addUser() {
-                var username = $("#username").val();
-
-                $.ajax({
-                    url: "http://localhost:3388/adduser/"+username,
-                    type: "GET",
-                    data: { username: username },
-                    success: function(result) {
-                        alert(result);
-                    },
-                    error: function() {
-                        alert('Something went wrong');
-                    }
-                });
-            }
             function getUser() {
-                var username = $("#username").val();
+                var title = $("#title").val();
+                var tag = $("#tag").val();
 
                 $.ajax({
-                    url: "http://localhost:3388/getuser/"+username,
+                    url: "http://localhost:3388/getuser/"+title,
                     type: "GET",
-                    data: { username: username },
+                    data: { title: title },
                     success: function(result) {
-                        alert('Given '+username + ", I found " +result);
+                        alert('Given '+title + ", I found " +result);
                     },
                     error: function() {
                         alert('Something went wrong');
                     }
                 });
             }
-            $("#adduser").on("click", function() {
-                addUser();
-            });
             $("#getuser").on("click", function() {
                 getUser();
             });
@@ -55,28 +38,31 @@
                 max: 5,
                 values: [ 0, 5 ],
                 slide: function( event, ui ) {
-                    $( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+                    $( "#amount" ).val(ui.values[ 0 ] + " - " + ui.values[ 1 ] );
                 }
                 });
-                $( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
-                " - $" + $( "#slider-range" ).slider( "values", 1 ) );
+                $( "#amount" ).val( $( "#slider-range" ).slider( "values", 0 ) +
+                " - " + $( "#slider-range" ).slider( "values", 1 ) );
         });
     </script>
 </head>
 <body>
 
+<h1>Movie Title</h1>
+<input type="text" id="title">
+<h1>Tag</h1>
+<input type="text" id="tag">
 
-<input type="text" id="username">
-<button id="adduser">Add this user</button><button id="getuser">Get this user</button>
 <br>
+<p>
+    <label for="amount">Rating:</label>
+    <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+</p>
+    
+<div id="slider-range" style="float:left; width:50%"></div>
+<br>
+<button id="getuser">Submit</button>
 
-<button id="getall">Get all users</button>
-    <p>
-        <label for="amount">Rating:</label>
-        <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
-    </p>
-       
-    <div id="slider-range" style="margin:auto; width:50%"></div>
 
 </body>
 </html>
