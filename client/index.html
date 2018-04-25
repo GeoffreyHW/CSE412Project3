@@ -51,19 +51,20 @@
 <body>
     <div id="control" style="text-align:center">
         <h1>Movie Title</h1>
-        <input type="text" id="title">
+        <input type="text" class="form-control" style="margin: auto; width: 30%" id="title">
         <h1>Tag</h1>
-        <input type="text" id="tag">
+        <input type="text" class="form-control" style="margin: auto; width: 30%" id="tag">
 
         <br>
-        <p>
-            <label for="amount">Rating:</label>
-            <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+        <p style="text-align:center">
+            <label for="amount" style = "font-size: 150%">Rating:</label>
+            <input type="text" id="amount" readonly style="text-align: center; width: 5%; font-size:150%; border:0; color:#f6931f; font-weight:bold;">
         </p>
             
         <div id="slider-range" style="margin:auto; width:30%"></div>
         <br><br>
         <button type="button" class="btn btn-default" id="getdata">Submit</button>
+        <br><br>
     </div>
     <div id="charts">
         <canvas id="avgrating" width="400" height="100"></canvas>
