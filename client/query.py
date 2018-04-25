@@ -4,7 +4,7 @@ import psycopg2
 APP=Flask(__name__)
 
 @APP.route('/querydb', methods=['GET'])
-def get_vendors():
+def get_data():
     """ query data from the vendors table """
     conn = None
     try:
