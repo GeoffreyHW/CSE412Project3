@@ -8,12 +8,12 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
         $(document).ready(function(){
-            function getUser() {
+            function getData() {
                 var title = $("#title").val();
                 var tag = $("#tag").val();
 
                 $.ajax({
-                    url: "http://localhost:3388/getuser/"+title,
+                    url: "http://localhost:3388/querydb/",
                     type: "GET",
                     data: { title: title },
                     success: function(result) {
@@ -24,13 +24,8 @@
                     }
                 });
             }
-            $("#getuser").on("click", function() {
-                getUser();
-            });
-            $("#getall").click(function(){
-                $.get("http://localhost:3388/getuser", function(data){
-                    alert("Got users: " + data);
-                });
+            $("#getdata").on("click", function() {
+                getData();
             });
             $( "#slider-range" ).slider({
                 range: true,
@@ -61,7 +56,7 @@
     
 <div id="slider-range" style="float:left; width:50%"></div>
 <br>
-<button id="getuser">Submit</button>
+<button id="getdata">Submit</button>
 
 
 </body>
