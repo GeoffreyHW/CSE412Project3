@@ -42,6 +42,16 @@ def database():
 	max_count = 5
 	if form.validate_on_submit():
 
+
+		# QUERY TIME!
+
+		# Subquery to get all the average rating of every movie
+		# SELECT m.title, g.genreid, AVG(r.rating) AS average
+		# FROM movies m, ratings r, hasagenre h, genres g
+		# WHERE m.movieid = h.movieid AND h.genreid = g.genreid AND r.movieid = m.movieid
+		# GROUP BY m.movieid, g.genreid
+		# ORDER BY m.movieid
+
 		avg_ratings_query = db.session.query(Movie.title, Genre.genreid, func.avg(Rating.rating).label('average'))
 		avg_ratings_query = avg_ratings_query.join(HasAGenre, HasAGenre.movieid==Movie.movieid)\
 						.join(Genre, Genre.genreid==HasAGenre.genreid)\
@@ -59,8 +69,23 @@ def database():
 
 		avg_ratings_query = avg_ratings_query.subquery('avg_ratings_query')
 
+
+
+
+
+		# Filter out the movies whose average rating is not within the range of the user input
+		# SELECT g2.name, COUNT(g2.name)
+		# FROM genres g2, (SELECT m.title AS title, g.genreid AS genreid, AVG(r.rating) AS average
+		# 	FROM movies m, ratings r, hasagenre h, genres g
+		# 	WHERE m.movieid = h.movieid AND h.genreid = g.genreid AND r.movieid = m.movieid
+		# 	GROUP BY m.movieid, g.genreid
+		# 	ORDER BY m.movieid) avg_ratings_query
+		# WHERE g2.genreid = avg_ratings_query.genreid AND avg_ratings_query.average >= 0 AND avg_ratings_query.average <= 5
+		# GROUP BY g2.name
+		# ORDER BY g2.name
+		
 		filter_avg_ratings_query = db.session.query(Genre.name, func.count(Genre.name))
-		filter_avg_ratings_query = filter_avg_ratings_query.filter((Genre.genreid==avg_ratings_query.c.genreid) & (avg_ratings_query.c.average >= form.min_rating.data) & (avg_ratings_query.c.average <= form.max_rating.data))
+		filter_avg_ratings_query = filter_avg_ratings_query.filter((Genre.genreid==avg_ratings_query.c.genreid) & (avg_ratings_query.c.average >= request.form['min']) & (avg_ratings_query.c.average <= request.form['max']))
 
 		filter_avg_ratings_query = filter_avg_ratings_query.group_by(Genre.genreid)
 		filter_avg_ratings_query = filter_avg_ratings_query.order_by(Genre.name)
@@ -68,12 +93,28 @@ def database():
 		counts = filter_avg_ratings_query.all()
 		print("\nFiltered Count Results: \n", counts )
 
+
+
+
+
+
+		#Calculate the average rating of every genre given the movies whose average rating is within the range of the user input
+		# SELECT g2.name, AVG(r2.rating)
+		# FROM movies m2, ratings r2, hasagenre h2, genres g2, (SELECT m.title AS title, g.genreid AS genreid, AVG(r.rating) AS average
+		# 	FROM movies m, ratings r, hasagenre h, genres g
+		# 	WHERE m.movieid = h.movieid AND h.genreid = g.genreid AND r.movieid = m.movieid
+		# 	GROUP BY m.movieid, g.genreid
+		# 	ORDER BY m.movieid) avg_ratings_query
+		# WHERE m2.movieid = h2.movieid AND h2.genreid = g2.genreid AND r2.movieid = m2.movieid AND m2.title = avg_ratings_query.title AND g2.genreid = avg_ratings_query.genreid AND avg_ratings_query.average >= 0 AND avg_ratings_query.average <= 5
+		# GROUP BY g2.name
+		# ORDER BY g2.name
+
 		genre_averages_query = db.session.query(Genre.name, func.avg(Rating.rating))
 		genre_averages_query = genre_averages_query.join(HasAGenre, HasAGenre.genreid==Genre.genreid)\
 						.join(Movie, Movie.movieid==HasAGenre.movieid)\
 						.join(Rating, Movie.movieid==Rating.movieid)
 		genre_averages_query = genre_averages_query.filter((Movie.title==avg_ratings_query.c.title) & (Genre.genreid==avg_ratings_query.c.genreid))				
-		genre_averages_query = genre_averages_query.filter((Genre.genreid==avg_ratings_query.c.genreid) & (avg_ratings_query.c.average >= form.min_rating.data) & (avg_ratings_query.c.average <= form.max_rating.data))
+		genre_averages_query = genre_averages_query.filter((Genre.genreid==avg_ratings_query.c.genreid) & (avg_ratings_query.c.average >= request.form['min']) & (avg_ratings_query.c.average <= request.form['max']))
 
 		genre_averages_query = genre_averages_query.group_by(Genre.name)
 		genre_averages_query = genre_averages_query.order_by(Genre.name)
