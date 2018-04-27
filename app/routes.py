@@ -32,7 +32,7 @@ def convertGenreStringToInt(str):
 	
 	return -1
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 @app.route('/database', methods=['GET', 'POST'])
 def database():
 	form = DatabaseQueryForm()

@@ -3,11 +3,8 @@
 <head>
     
     <title>CSE412 - Phase 3</title>
-
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>jQuery UI Slider - Range slider</title>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="/resources/demos/style.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -38,23 +35,13 @@
             $( "#amount" ).val($( "#slider-range" ).slider( "values", 0 ) +
               " - " + $( "#slider-range" ).slider( "values", 1 ) );
 
-
-
             min = $( "#slider-range" ).slider( "values", 0 )
             max = $( "#slider-range" ).slider( "values", 1 )
 
-            console.log(min)
-            console.log(max)
             document.forms["form"].elements["min"].value = min;
             document.forms["form"].elements["max"].value = max;
-
         });
-
-
-
     </script>
-
-
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="/resources/demos/style.css">
@@ -62,72 +49,46 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
-
-
 </head>
 <body>
-{#     <div>
-        Microblog: 
-        <a href="{{ url_for('index') }}"> Home </a> 
-        {% if current_user.is_anonymous %}
-        <a href="{{ url_for('login') }}"> Login </a>    
-        {% else %}
-        <<a href="{{ url_for('logout') }}"> Logout </a>
-        {% endif %}
-    </div>  #} 
 
     <hr>
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-    <ul>
-        {% for message in messages %}
-        <li>
-            {{ message }}
-        </li>
-        {% endfor %}
-    </ul>
-    {% endif %}
-    {% endwith %}
+    <div id="control" style="text-align:center">
+        <h1>Query from the Postgres Database!</h1>
+        <form id="form" name="form" action="" method="post">
+            {{ form.hidden_tag() }}
+            <p>
+                {{ form.movie.label }}<br>
+                {{ form.movie(size=64) }}<br>
+                {% for error in form.movie.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.tag.label }}<br>
+                {{ form.tag(size=64) }}<br>
+                {% for error in form.tag.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
 
+            <p style="text-align:center">
+                <label for="amount" style = "font-size: 150%">Average Rating:</label>
+                <input type="text" id="amount" readonly style="text-align: center; width: 5%; font-size:150%; border:0; color:#f6931f; font-weight:bold;">
+            </p>
 
+            <div id="slider-range" style="margin:auto; width:40%"></div>
 
-    <h1>Query from the Postgres Database!</h1>
-    <form id="form" name="form" action="" method="post">
-        {{ form.hidden_tag() }}
-        <p>
-            {{ form.movie.label }}<br>
-            {{ form.movie(size=64) }}<br>
-            {% for error in form.movie.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.tag.label }}<br>
-            {{ form.tag(size=64) }}<br>
-            {% for error in form.tag.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-
-        <p>
-            <label for="amount">Average Rating:</label>
-            <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
-        </p>
-
-        <div id="slider-range"></div>
-
-        <input type="hidden" name="min">
-        <input type="hidden" name="max">
-
-        <p><input id="submit" name="submit" value="Submit" type="submit"></p>
-
-
-    </form>
+            <input type="hidden" name="min">
+            <input type="hidden" name="max">
+            <br><br>
+            <p><input id="submit" name="submit" value="Submit" type="submit" class="btn btn-lg btn-default"></p>
+        </form>
+    </div>
 
 
     {# Display Results #}
-    <h1> Results </h1>
-
+    <h1 style="text-align: center"> Results </h1>
     <div id="charts">
         <canvas id="avgrating" width="400" height="100"></canvas>
         <script>
