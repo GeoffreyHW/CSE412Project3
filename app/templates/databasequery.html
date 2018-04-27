@@ -5,8 +5,6 @@
     <title>CSE412 - Phase 3</title>
 
 
-
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>jQuery UI Slider - Range slider</title>
@@ -19,18 +17,26 @@
         var max;
 
         $( function() {
-        $( "#slider-range" ).slider({
-          range: true,
-          min: 0,
-          max: 5,
-          step: 0.1,
-          values: [ 0, 5 ],
-          slide: function( event, ui ) {
-            $( "#amount" ).val(ui.values[ 0 ] + " - " + ui.values[ 1 ] );
-          }
-        });
-        $( "#amount" ).val($( "#slider-range" ).slider( "values", 0 ) +
-          " - " + $( "#slider-range" ).slider( "values", 1 ) );
+            $( "#slider-range" ).slider({
+              range: true,
+              min: 0,
+              max: 5,
+              step: 0.1,
+              values: [ 0, 5 ],
+              slide: function( event, ui ) {
+                $( "#amount" ).val(ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+
+                min = $( "#slider-range" ).slider( "values", 0 )
+                max = $( "#slider-range" ).slider( "values", 1 )
+
+                console.log(min)
+                console.log(max)
+                document.forms["form"].elements["min"].value = min;
+                document.forms["form"].elements["max"].value = max;
+              }
+            });
+            $( "#amount" ).val($( "#slider-range" ).slider( "values", 0 ) +
+              " - " + $( "#slider-range" ).slider( "values", 1 ) );
 
 
 
@@ -42,7 +48,7 @@
             document.forms["form"].elements["min"].value = min;
             document.forms["form"].elements["max"].value = max;
 
-        } );
+        });
 
 
 

@@ -42,6 +42,8 @@ def database():
 	max_count = 5
 	if form.validate_on_submit():
 
+		print("MIN ", request.form['min'])
+		print("MAX ", request.form['max'])
 
 		# QUERY TIME!
 
@@ -142,6 +144,6 @@ def database():
 
 			max_count = max(max_count, counts[indx][1])
 
-		print("\nCount Results with gaps filled in: \n", avg_ratings)
+		print("\nCount Results with gaps filled in: \n", counts)
 
 	return render_template('databasequery.html', form=form, avg_ratings=avg_ratings, counts=counts, max_count=max_count)
