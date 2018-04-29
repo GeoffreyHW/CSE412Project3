@@ -10,9 +10,11 @@
    psql -U postgres movies < inputfile.pgsql
    Now you have the database set up!
 3. Download python
-4. Set environment variable
-5. pip install -r requirements.txt
-6. Configure config.py
+4. Configure config.py
    postgresql://USERNAME:YOURPASSWORD@localhost/movies
-7. Go to 127.0.0.1:5000 on your browser
+5. Set environment variable
+6. Navigate to folder in console
+7. pip install -r requirements.txt 
+8. Type 'set FLASK_APP=movie.py'
+9. Go to 127.0.0.1:5000 on your browser
 
