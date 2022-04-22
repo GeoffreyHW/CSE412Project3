@@ -30,7 +30,7 @@ pycparser==2.18
 PyJWT==1.5.3
 PyMsgBox==1.0.6
 pyOpenSSL==17.5.0
-PyPDF2==1.26.0
+PyPDF2==1.27.5
 pyperclip==1.6.0
 PyScreeze==0.1.13
 PySocks==1.6.8
