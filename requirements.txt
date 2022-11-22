@@ -23,7 +23,7 @@ Mako==1.0.7
 MarkupSafe==1.0
 olefile==0.44
 openpyxl==2.1.4
-Pillow==4.3.0
+Pillow==9.3.0
 psycopg2==2.7.4
 PyAutoGUI==0.9.36
 pycparser==2.18
